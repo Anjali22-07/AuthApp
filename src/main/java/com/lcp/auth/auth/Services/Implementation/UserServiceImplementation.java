@@ -1,16 +1,15 @@
 package com.lcp.auth.auth.Services.Implementation;
 
-import java.util.Optional;
+import java.time.Instant;
 import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import com.lcp.auth.auth.Exceptions.ResourceNotFoundException;
 import com.lcp.auth.auth.Repository.UserRepositories;
 import com.lcp.auth.auth.Services.UserService;
 import com.lcp.auth.auth.dtos.UserDto;
 import com.lcp.auth.auth.entities.User;
-
+import com.lcp.auth.auth.helper.UserHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +19,7 @@ public class UserServiceImplementation implements UserService{
 
     private final UserRepositories userRepo;
     private final ModelMapper modelMapper;
+    private final UserHelper userHelper;
     
 
    
@@ -58,16 +58,18 @@ public class UserServiceImplementation implements UserService{
 
 
     @Override
-    public UserDto updateUser(UUID Id, UserDto user) {
+    public UserDto updateUser(String Id, UserDto user) {
 
-         User user1= userRepo.findById(Id)
+        UUID uId= userHelper.parseUserId(Id);
+
+         User user1= userRepo.findById(uId)
         .orElseThrow(()->new ResourceNotFoundException("User Not Found"));
         
         user1.setName(user.getName());
-        user1.setEmail(user.getEmail());
         user1.setPassword(user.getPassword());
         user1.setImg(user.getImg());
         user1.setProvider(user.getProvider());
+        user1.setUpdatedAt(Instant.now());
 
        User savedUser= userRepo.save(user1);
        return modelMapper.map(savedUser, UserDto.class);

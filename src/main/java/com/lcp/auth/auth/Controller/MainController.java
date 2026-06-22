@@ -15,6 +15,7 @@ import com.lcp.auth.auth.Services.UserService;
 import com.lcp.auth.auth.Services.Implementation.UserServiceImplementation;
 import com.lcp.auth.auth.dtos.UserDto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -44,7 +45,7 @@ public class MainController {
     }
 
     @PutMapping("Id/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable UUID id, @RequestBody UserDto userdto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable String id, @RequestBody UserDto userdto) {
         return ResponseEntity.ok(userService.updateUser(id, userdto));
     }
 

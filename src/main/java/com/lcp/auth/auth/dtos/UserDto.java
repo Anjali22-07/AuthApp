@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import com.lcp.auth.auth.entities.Provider;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -15,9 +19,14 @@ import lombok.*;
 @ToString
 public class UserDto {
 
-    private UUID id;
+    private String id;
+    @NotBlank(message ="Name cannot be empty")
     private String name;
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Invalid email format")
     private String email;
+    @NotBlank(message ="Password cannot be empty")
+    @Size(min=8, message="Password must have atleast 8 characters")
     private String password;
     private String img;
     private boolean enabled= true;

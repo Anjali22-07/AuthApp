@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDto createUser(UserDto userdto);
     UserDto findUserByEmail(String email);
-    UserDto updateUser(UUID Id, UserDto user);
+    UserDto updateUser(String Id, UserDto user);
     void deleteUser(String email);
     Boolean ifUserExistByEmail(String email);
     Iterable<UserDto> getAllUsers();
