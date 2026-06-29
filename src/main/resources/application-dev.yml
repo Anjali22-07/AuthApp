@@ -22,6 +22,17 @@ logging:
       level:
          org.springframework.security: DEBUG
 
+security:
+     jwt:
+       secret: ${SECRET_KEY}
+       issuer: ${JWT_ISSUER}
+       access-ttl-seconds: ${JWT_ACCESS_TTL}
+       refresh-ttl-seconds: ${JWT_REFRESH_TTL}
+       refresh-token-cookie-name: ${REFRESH_TOKEN_COOKIE_NAME}
+       cookie-secure: ${COOKIE_SECURE}
+       cookie-http-only: ${COOKIE_HTTP_ONLY}
+       cookie-same-site: ${COOKIE_SAME_SITE}
+
 
 
 

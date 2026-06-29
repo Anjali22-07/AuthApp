@@ -19,22 +19,7 @@ public class CustomDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-         
-          System.out.println("Total users: " + userRepo.count());
-
-    userRepo.findAll().forEach(
-        u -> System.out.println("DB Email: " + u.getEmail())
-    );
-
-    System.out.println("Searching for: " + username);
-
-
         User user=userRepo.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("User with this email does not Exist"));
-            System.out.println(user);
-
-            System.out.println("FOUND USER = " + user.getEmail());
-System.out.println("PASSWORD IN DB = " + user.getPassword());
-
             return user;
     }
 
