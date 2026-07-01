@@ -92,11 +92,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }
                 filterChain.doFilter(request, response);
-           
-        
-    
+    }
 
-}
+    //since we do not need to filter register or login ? because the purpose of the login endpoint is to create the token.
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+            return request.getRequestURI().startsWith("/auth/V1/auth");
+    }
 
     
       
