@@ -16,19 +16,23 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
+import lombok.Setter;
 
 @Service
+@Getter
+@Setter
 public class JwtSecurity {
 
     private final SecretKey secretKey;
-    private final long accessToken;
-    private final long refreshToken;
+    private final long accessTokenTTLS;
+    private final long refreshTokenTTLS;
     private final String issuer;
 
-    public JwtSecurity(@Value("${security.jwt.secret}")String secretKey, @Value("${security.jwt.access-ttl-seconds}")long accessToken, @Value("${security.jwt.refresh-ttl-seconds}")long refreshToken, @Value("${security.jwt.issuer}") String issuer) {
+    public JwtSecurity(@Value("${security.jwt.secret}")String secretKey, @Value("${security.jwt.access-ttl-seconds}")long accessTokenTTLS, @Value("${security.jwt.refresh-ttl-seconds}")long refreshTokenTTLS, @Value("${security.jwt.issuer}") String issuer) {
         
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+        this.accessTokenTTLS = accessTokenTTLS;
+        this.refreshTokenTTLS = refreshTokenTTLS;
         this.issuer = issuer;
 
         if(secretKey==null || secretKey.length()<64){
@@ -49,7 +53,7 @@ public class JwtSecurity {
          .subject(user.getId().toString())    
          .issuer(issuer)
          .issuedAt(Date.from(now))
-         .expiration(Date.from(now.plusSeconds(accessToken)))
+         .expiration(Date.from(now.plusSeconds(accessTokenTTLS)))
          .claims(Map.of(                        //Claims are pieces of information stored inside the JWT payload.
             "email", user.getEmail(),
             "role", role,
@@ -67,7 +71,7 @@ public class JwtSecurity {
          .subject(user.getId().toString())    
          .issuer(issuer)
          .issuedAt(Date.from(now))
-         .expiration(Date.from(now.plusSeconds(refreshToken)))
+         .expiration(Date.from(now.plusSeconds(refreshTokenTTLS)))
          .claims(Map.of(                  //Claims are pieces of information stored inside the JWT payload.
              "typ", "refresh"
          )).signWith(secretKey)          //Signs the token using your secret key.Prevents tampering.Withot signing the jwt token can be tampered easily
