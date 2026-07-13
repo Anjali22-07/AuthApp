@@ -1,0 +1,9 @@
+package com.lcp.auth.auth.Repository;
+
+import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.lcp.auth.auth.entities.RefreshToken;
+
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken,UUID>{
+
+}

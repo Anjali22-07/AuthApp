@@ -64,10 +64,10 @@ public class JwtSecurity {
 
     //Method for Generating Refresh Token 
 
-      public String generateRefreshToken(User user){
+      public String generateRefreshToken(User user, String jti){
         Instant now= Instant.now();
           return Jwts.builder()           //Creates a new JWT builder object.You're starting to construct a token.
-         .id(UUID.randomUUID().toString())    //Gives every token a unique identifier.Useful if you want to blacklist/revoke a specific token later.
+         .id(jti)    //Gives every token a unique identifier.Useful if you want to blacklist/revoke a specific token later.
          .subject(user.getId().toString())    
          .issuer(issuer)
          .issuedAt(Date.from(now))
