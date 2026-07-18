@@ -32,6 +32,7 @@ security:
        cookie-secure: ${COOKIE_SECURE}
        cookie-http-only: ${COOKIE_HTTP_ONLY}
        cookie-same-site: ${COOKIE_SAME_SITE}
+       cookie-Domain : ${COOKIE_DOMAIN_NAME}
 
 
 

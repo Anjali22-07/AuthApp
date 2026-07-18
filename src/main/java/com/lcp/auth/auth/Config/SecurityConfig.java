@@ -46,9 +46,11 @@ public class SecurityConfig {
         .authorizeHttpRequests(authorizeHttpRequest->{
             authorizeHttpRequest.requestMatchers("/api/V1/auth/register").permitAll()
             .requestMatchers("/api/V1/auth/login").permitAll()
+             .requestMatchers("/api/V1/auth/refresh").permitAll()
+              .requestMatchers("/api/V1/auth/logout").permitAll()
             .anyRequest().authenticated();
     }).exceptionHandling(ex->ex.authenticationEntryPoint((request, response, e)->{
-               System.out.println("Exception Gandling enabled");
+               System.out.println("Exception Handling enabled");
                 e.printStackTrace();
                 response.setStatus(401);
                 response.setContentType("application/Json");

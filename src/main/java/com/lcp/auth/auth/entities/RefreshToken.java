@@ -40,11 +40,10 @@ public class RefreshToken {
     @Column(nullable = false,updatable = false)
     private Instant createdAt;
     @Column(nullable = false,updatable = false)
-    private Instant updatedAt;
+    private Instant expiresAt;
     @Column(nullable = false)
     private boolean revoked;
-    //  @Column(nullable = false)
-    // private String replaceByToken;
+    private String replaceByToken;
 
 
 

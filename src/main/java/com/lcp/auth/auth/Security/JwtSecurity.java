@@ -102,4 +102,15 @@ public class JwtSecurity {
         return parseToken(token).getPayload().getId();
      }
 
+     public String getSubject(String token){
+         Claims claims = Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
+
+         return claims.getSubject();
+        
+     }
+
 }

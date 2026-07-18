@@ -7,8 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -97,7 +95,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     //since we do not need to filter register or login ? because the purpose of the login endpoint is to create the token.
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-            return request.getRequestURI().startsWith("/auth/V1/auth");
+            return request.getRequestURI().startsWith("/api/V1/auth");
     }
 
     
