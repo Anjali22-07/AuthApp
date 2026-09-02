@@ -76,7 +76,7 @@ public class CookieService {
              response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
      }
 
-
+    //this method is used to prevent caching, so that browser doesn't save this information in cache sincce it is sensitive data
      public void addNoStroreHeaders(HttpServletResponse response){
         response.addHeader(HttpHeaders.CACHE_CONTROL, "no-store");
         response.addHeader("pragma", "no-cache");

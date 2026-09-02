@@ -3,10 +3,8 @@ package com.lcp.auth.auth.Exceptions;
 import java.net.http.HttpRequest;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-
 import javax.naming.AuthenticationException;
 import javax.security.auth.login.CredentialExpiredException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,10 +13,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.lcp.auth.auth.dtos.ApiError;
 import com.lcp.auth.auth.dtos.ErrorResponse;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice

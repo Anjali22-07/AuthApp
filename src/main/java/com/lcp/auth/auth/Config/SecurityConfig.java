@@ -2,6 +2,7 @@ package com.lcp.auth.auth.Config;
 
 import com.lcp.auth.auth.AuthApplication;
 import com.lcp.auth.auth.Security.JwtAuthenticationFilter;
+import com.lcp.auth.auth.Security.OAuthAuthenticationSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
@@ -26,6 +27,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthApplication authApplication;
+    private final OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler;
    
 
     @Bean
@@ -49,7 +51,8 @@ public class SecurityConfig {
              .requestMatchers("/api/V1/auth/refresh").permitAll()
               .requestMatchers("/api/V1/auth/logout").permitAll()
             .anyRequest().authenticated();
-    }).exceptionHandling(ex->ex.authenticationEntryPoint((request, response, e)->{
+    }).oauth2Login(oauth2 -> oauth2.successHandler(oAuthAuthenticationSuccessHandler))
+    .exceptionHandling(ex->ex.authenticationEntryPoint((request, response, e)->{
                System.out.println("Exception Handling enabled");
                 e.printStackTrace();
                 response.setStatus(401);

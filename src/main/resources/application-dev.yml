@@ -34,6 +34,15 @@ security:
        cookie-same-site: ${COOKIE_SAME_SITE}
        cookie-Domain : ${COOKIE_DOMAIN_NAME}
 
+     OAuth2: 
+        client:
+          registration:
+            google:
+              client-name: google
+              client-id: ${Oauth-Google-clientID}
+              client-secret: ${Oauth-Google-clientSecret}
+
+
 
 
 
