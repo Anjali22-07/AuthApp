@@ -1,0 +1,55 @@
+server:
+   port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth
+
+    username: ${DB_Username}
+    password: ${DB_Password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:           # JPA and Hibernate configuration.
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+    properties:
+       hibernate:
+         dialect: org.hibernate.dialect.MySQLDialect
+
+  security: 
+    OAuth2: 
+        client:
+          registration:
+            google:
+              client-name: google
+              client-id: ${Oauth-Google-clientID}
+              client-secret: ${Oauth-Google-clientSecret}
+            github:
+              client-name: github
+              client-id: ${Oauth-Github-clientID}
+              client-secret: ${Oauth-Github-clientSecret}
+
+
+
+logging:
+      level:
+         org.springframework.security: DEBUG
+
+security:
+     jwt:
+       secret: ${SECRET_KEY}
+       issuer: ${JWT_ISSUER}
+       access-ttl-seconds: ${JWT_ACCESS_TTL}
+       refresh-ttl-seconds: ${JWT_REFRESH_TTL}
+       refresh-token-cookie-name: ${REFRESH_TOKEN_COOKIE_NAME}
+       cookie-secure: ${COOKIE_SECURE}
+       cookie-http-only: ${COOKIE_HTTP_ONLY}
+       cookie-same-site: ${COOKIE_SAME_SITE}
+       cookie-Domain : ${COOKIE_DOMAIN_NAME}
+
+    
+
+
+
