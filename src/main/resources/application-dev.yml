@@ -18,6 +18,21 @@ spring:
        hibernate:
          dialect: org.hibernate.dialect.MySQLDialect
 
+  security: 
+    OAuth2: 
+        client:
+          registration:
+            google:
+              client-name: google
+              client-id: ${Oauth-Google-clientID}
+              client-secret: ${Oauth-Google-clientSecret}
+            github:
+              client-name: github
+              client-id: ${Oauth-Github-clientID}
+              client-secret: ${Oauth-Github-clientSecret}
+
+
+
 logging:
       level:
          org.springframework.security: DEBUG
@@ -34,15 +49,7 @@ security:
        cookie-same-site: ${COOKIE_SAME_SITE}
        cookie-Domain : ${COOKIE_DOMAIN_NAME}
 
-     OAuth2: 
-        client:
-          registration:
-            google:
-              client-name: google
-              client-id: ${Oauth-Google-clientID}
-              client-secret: ${Oauth-Google-clientSecret}
-
-
+    
 
 
 
