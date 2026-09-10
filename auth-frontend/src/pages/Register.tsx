@@ -5,56 +5,64 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { motion } from "motion/react";
+import type RegisterData from "../Models/RegisterData";
 import {
   Card,
   CardContent,
+  CardFooter,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
+import toast from "react-hot-toast";
+import { registerUser } from "../services/AuthServices";
 
 export default function Register() {
-  const [formData, setFormData] = useState({
+  const [data, setData] = useState<RegisterData>({
     name: "",
     email: "",
     password: "",
-    img: "",
   });
 
-  const [preview, setPreview] = useState<string | null>(null);
+ const[loading, setLoading]= useState<boolean>(false);
+ const[error,setError]=useState(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+ //Now we bind the form data the values here 
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+ const handleInputChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
+     setData(value=>({
+         ...value,
+         [e.target.name]:e.target.value
+     }));
+ }  
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+ //handling formsubmit
 
-    if (!file) return;
+ const handleFormSubmit=async(e:React.FormEvent)=>{
+       console.log(import.meta.env.VITE_API_URL);
+      //preventing default event behavior
+       e.preventDefault();
+       //adding validation 
+       if(data.name.trim()==' '){
+        toast.error("Name is required");
+       } if(data.email.trim()==' '){
+        toast.error("Email is required");
+       } if(data.password.trim()==' '){
+        toast.error("Password is required");
+       }
+      
+       //using try and catch block
+       try{
+         const resp= await registerUser(data);
+         console.log(resp);
+         toast.success("User Registered Successfully!");
+       }
+       catch(error){
+           toast.error("Some Error Occured");
+       }
+ };
 
-    const imageUrl = URL.createObjectURL(file);
 
-    setPreview(imageUrl);
-
-    setFormData((prev) => ({
-      ...prev,
-      img: imageUrl,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    console.log("Registration data:", formData);
-
-    // Later:
-    // axios.post("http://localhost:8080/api/v1/auth/register", formData)
-  };
 
   return (
      <motion.h1
@@ -80,55 +88,22 @@ export default function Register() {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-5">
-
-            {/* Profile Image */}
-            <div className="flex flex-col items-center gap-3">
-              <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-border bg-muted">
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt="Profile preview"
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <ImagePlus className="h-8 w-8 text-muted-foreground" />
-                )}
-              </div>
-
-              <Label
-                htmlFor="img"
-                className="cursor-pointer text-sm font-medium text-primary hover:underline"
-              >
-                Upload profile image
-              </Label>
-
-              <Input
-                id="img"
-                name="img"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-            </div>
-
-            {/* Name */}
+          <form onSubmit={handleFormSubmit} className="space-y-5">
+           {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
-
               <div className="relative">
                 <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
                 <Input
                   id="name"
-                  name="name"
                   type="text"
-                  placeholder="John Doe"
-                  value={formData.name}
-                  onChange={handleChange}
+                  placeholder="John Doe"                   
                   className="pl-10"
                   required
+                  name="name"
+                  value={data.name}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -145,8 +120,8 @@ export default function Register() {
                   name="email"
                   type="email"
                   placeholder="john@example.com"
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={data.email}
+                  onChange={handleInputChange}
                   className="pl-10"
                   required
                 />
@@ -165,8 +140,8 @@ export default function Register() {
                   name="password"
                   type="password"
                   placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleChange}
+                  value={data.password}
+                  onChange={handleInputChange}
                   className="pl-10"
                   required
                 />
@@ -179,6 +154,7 @@ export default function Register() {
             </Button>
 
             {/* Login */}
+             <CardFooter className="flex-col gap-2">
             <p className="text-center text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link
@@ -187,12 +163,20 @@ export default function Register() {
               >
                 Login
               </Link>
-            </p>
+               </p>
+                 <Button variant="outline" className="w-full">
+                  Login with Google
+                </Button>
+                <Button variant="outline" className="w-full">
+                  Login with GitHub
+                </Button>
+            
+            </CardFooter>
           </form>
         </CardContent>
       </Card>
     </div>
-    </motion.h1>
+   </motion.h1>
   );
 
 }

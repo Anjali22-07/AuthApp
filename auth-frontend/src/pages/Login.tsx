@@ -65,6 +65,9 @@ return(
         <Button variant="outline" className="w-full">
           Login with Google
         </Button>
+         <Button variant="outline" className="w-full">
+          Login with GitHub
+        </Button>
       </CardFooter>
         </form>
       </CardContent>
