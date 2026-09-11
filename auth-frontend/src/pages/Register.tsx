@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { data, Link, useNavigate } from "react-router";
 import { User, Mail, Lock, ImagePlus } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -16,6 +16,7 @@ import {
 } from "../components/ui/card";
 import toast from "react-hot-toast";
 import { registerUser } from "../services/AuthServices";
+import axios from "axios";
 
 export default function Register() {
   const [data, setData] = useState<RegisterData>({
@@ -36,6 +37,8 @@ export default function Register() {
      }));
  }  
 
+ const navigate= useNavigate();
+
  //handling formsubmit
 
  const handleFormSubmit=async(e:React.FormEvent)=>{
@@ -43,11 +46,11 @@ export default function Register() {
       //preventing default event behavior
        e.preventDefault();
        //adding validation 
-       if(data.name.trim()==' '){
+       if(data.name.trim()===""){
         toast.error("Name is required");
-       } if(data.email.trim()==' '){
+       } if(data.email.trim()===""){
         toast.error("Email is required");
-       } if(data.password.trim()==' '){
+       } if(data.password.trim()===""){
         toast.error("Password is required");
        }
       
@@ -56,10 +59,24 @@ export default function Register() {
          const resp= await registerUser(data);
          console.log(resp);
          toast.success("User Registered Successfully!");
+            setData({
+                name: "",
+                email: "",
+                password: "",
+
+             });
+             navigate("/login")
        }
        catch(error){
-           toast.error("Some Error Occured");
-       }
+          if (axios.isAxiosError(error)) {
+          console.log("ERROR RESPONSE:", error.response?.data);
+          console.log("ERROR STATUS:", error.response?.status);
+  } else {
+    console.log("UNKNOWN ERROR:", error);
+  }
+  toast.error("Some Error Occured");
+}
+       
  };
 
 
