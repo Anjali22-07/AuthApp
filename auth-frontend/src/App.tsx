@@ -71,7 +71,7 @@ function App() {
       <section className="border-t border-border py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-medium uppercase tracking-widest text-indigo-500">
+            <p className="text-2xl font-medium uppercase tracking-widest text-indigo-500">
               Features
             </p>
 
@@ -180,7 +180,7 @@ function App() {
                 Security shouldn't be an afterthought.
               </h2>
 
-              <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
+              <p className="mx-auto mt-5 text-muted-foreground items-center">
                 Build your application on top of an authentication layer
                 designed around secure identity, protected sessions and
                 modern authentication practices.
