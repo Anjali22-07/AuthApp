@@ -53,6 +53,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
+         
 
         return ResponseEntity.status(HttpStatus.CREATED).body(authImp.registerUser(userDto));
 }
@@ -93,7 +94,7 @@ public class AuthController {
            cookieService.addRefreshCookie(response, refreshToken, (int)jwtSecurity.getRefreshTokenTTLS());
            cookieService.addNoStroreHeaders(response);
 
-          TokenResponse tokenResponse= TokenResponse.of(accessToken, refreshToken, jwtSecurity.getAccessTokenTTLS(), mapper.map(user, UserDto.class));
+          TokenResponse tokenResponse= TokenResponse.of(accessToken, jwtSecurity.getAccessTokenTTLS(), mapper.map(user, UserDto.class));
           return ResponseEntity.ok(tokenResponse);
     }
 
@@ -155,7 +156,7 @@ public class AuthController {
            cookieService.addRefreshCookie(response, newRefreshToken, (int)jwtSecurity.getRefreshTokenTTLS());
            cookieService.addNoStroreHeaders(response);
 
-          TokenResponse tokenResponse= TokenResponse.of(newAccessToken, newRefreshToken, jwtSecurity.getAccessTokenTTLS(), mapper.map(user, UserDto.class));
+          TokenResponse tokenResponse= TokenResponse.of(newAccessToken, jwtSecurity.getAccessTokenTTLS(), mapper.map(user, UserDto.class));
           return ResponseEntity.ok(tokenResponse);
 
      }

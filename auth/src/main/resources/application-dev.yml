@@ -44,11 +44,23 @@ security:
        access-ttl-seconds: ${JWT_ACCESS_TTL}
        refresh-ttl-seconds: ${JWT_REFRESH_TTL}
        refresh-token-cookie-name: ${REFRESH_TOKEN_COOKIE_NAME}
-       cookie-secure: ${COOKIE_SECURE}
+       cookie-secure: false
        cookie-http-only: ${COOKIE_HTTP_ONLY}
        cookie-same-site: ${COOKIE_SAME_SITE}
        cookie-Domain : ${COOKIE_DOMAIN_NAME}
 
+app:
+ cors:
+     Frontend:
+       url: ${Frontend-URL}
+
+ logging:
+   level:
+     org:
+       springframework:
+                  security:TRACE
+  
+ 
     
 
 

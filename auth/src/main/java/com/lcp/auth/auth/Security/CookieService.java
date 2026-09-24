@@ -60,7 +60,7 @@ public class CookieService {
      
      public void clearRefreshCookie(HttpServletResponse response){
          
-         var responseCookie= ResponseCookie.from(refreshTokenName," ")
+         var responseCookie= ResponseCookie.from(refreshTokenName,"")
                              .httpOnly(cookieHTTPOnly)
                                    .secure(cookieSecure)
                                    .path("/")
@@ -73,7 +73,7 @@ public class CookieService {
             }
 
             ResponseCookie responseCookies= responseCookie.build();
-             response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+             response.addHeader(HttpHeaders.SET_COOKIE, responseCookies.toString());
      }
 
     //this method is used to prevent caching, so that browser doesn't save this information in cache sincce it is sensitive data

@@ -8,6 +8,7 @@ import com.lcp.auth.auth.Exceptions.ResourceNotFoundException;
 import com.lcp.auth.auth.Repository.UserRepositories;
 import com.lcp.auth.auth.Services.UserService;
 import com.lcp.auth.auth.dtos.UserDto;
+import com.lcp.auth.auth.entities.Provider;
 import com.lcp.auth.auth.entities.User;
 import com.lcp.auth.auth.helper.UserHelper;
 import jakarta.transaction.Transactional;
@@ -35,10 +36,12 @@ public class UserServiceImplementation implements UserService{
         if(userRepo.existsByEmail(userdto.getEmail())){
             throw new IllegalArgumentException("Email Id already Exists");
         }
-
-        //converting from dto to entity
-        User user=modelMapper.map(userdto,User.class);  //this will map the data from dto to db
-        //assign role here for authorization     
+          User user = new User();                      // constructor runs -> defaults apply
+            user.setName(userdto.getName());
+            user.setEmail(userdto.getEmail());
+            user.setPassword(userdto.getPassword());      // already encoded by AuthServiceImplementation
+            user.setImg(userdto.getImg());
+           //assign role here for authorization     
         User savedUser= userRepo.save(user);
             return modelMapper.map(savedUser, UserDto.class);
     }
@@ -68,7 +71,7 @@ public class UserServiceImplementation implements UserService{
         user1.setName(user.getName());
         user1.setPassword(user.getPassword());
         user1.setImg(user.getImg());
-        user1.setProvider(user.getProvider());
+        //user1.setProvider(Provider.LOCAL);
         user1.setUpdatedAt(Instant.now());
 
        User savedUser= userRepo.save(user1);

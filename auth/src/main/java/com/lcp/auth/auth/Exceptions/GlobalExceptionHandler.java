@@ -38,7 +38,6 @@ public class GlobalExceptionHandler {
 //Handles exceptions coming from servlet 
     @ExceptionHandler({
         UsernameNotFoundException.class,
-        BadCredentialsException.class,
         CredentialExpiredException.class,
         DisabledException.class,
     })
@@ -47,5 +46,12 @@ public class GlobalExceptionHandler {
         var apiError= ApiError.of(HttpStatus.BAD_REQUEST.value(),"BAD REQUEST", e.getMessage(), request.getRequestURI(),OffsetDateTime.now(ZoneOffset.UTC));
             return ResponseEntity.badRequest().body(apiError);
 
+}
+
+@ExceptionHandler(BadCredentialsException.class)
+public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex) {
+            ErrorResponse error= new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        
 }
 }

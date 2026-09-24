@@ -29,10 +29,10 @@ public class UserDto {
     @Size(min=8, message="Password must have atleast 8 characters")
     private String password;
     private String img;
-    private boolean enabled= true;
-    private Instant createdAt= Instant.now();
-    private Instant updatedAt=Instant.now();
-    private Provider provider=Provider.LOCAL;
-    private Set<RoleDto> role= new HashSet<>();
+    // private Boolean enabled= true;
+    // private Instant createdAt= Instant.now();
+    // private Instant updatedAt=Instant.now();
+    // private Provider provider=Provider.LOCAL;
+    // private Set<RoleDto> role= new HashSet<>();
 
 }
