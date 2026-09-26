@@ -12,6 +12,7 @@ import {persist} from 'zustand/middleware';
 
      accessToken:string | null,
      user: User | null,
+     setUser: (user: User) => void,
      authStatus: boolean,
      authLoading :boolean,
 
@@ -26,6 +27,9 @@ import {persist} from 'zustand/middleware';
      user : null,
      authLoading:false,
      authStatus:false,
+
+    setUser: (user) => set({ user }),
+
 
      login: async (loginData)=>{
         console.log("Login started");

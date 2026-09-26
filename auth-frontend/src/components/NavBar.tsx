@@ -16,7 +16,7 @@ function NavBar(){
         .join(" ");    
 
     return(
-      <nav className="md:py-2 py-2 flex md:flex-row justify-around text-center md:gap-0 gap-4 border-b border-gray-200 dark:border-gray-600 h-10 ">
+      <nav className="md:py-2 py-2 flex md:flex-row justify-around text-center md:gap-0 gap-4 border-b bg-gray-950 border-gray-200 dark:border-gray-600 h-10 ">
         <div className="flex text-center gap-2">
             <span className="inline-block text-center h-6 w-6 rounded-md bg-gradient-to-r from-primary to-primary/40">
                A
@@ -27,9 +27,9 @@ function NavBar(){
         <div className="flex text-center gap-4"> 
          { authstatus?   
          <>
-          <a href="/" className="text-sm py-1 font-bold">{user?.name  && toTitleCase(user.name)}</a>
+        <NavLink to="/dashboard/profile"><a href="/" className="text-sm py-1 font-bold">{user?.name  && toTitleCase(user.name)}</a></NavLink>  
             <Button onClick={()=>{logout(); 
-            navigate("/login");}}
+            navigate("/");}}
             size={"sm"} className= "cursor-pointer"  variant={"outline"}>Logout</Button>
              </>
             : 
