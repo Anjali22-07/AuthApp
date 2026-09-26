@@ -17,6 +17,7 @@ import {
 import toast from "react-hot-toast";
 import { registerUser } from "../services/AuthServices";
 import axios from "axios";
+import OAuthButton from "../components/OAuthButton";
 
 export default function Register() {
   const [data, setData] = useState<RegisterData>({
@@ -171,7 +172,7 @@ export default function Register() {
             </Button>
 
             {/* Login */}
-             <CardFooter className="flex-col gap-2">
+             <CardFooter className="flex-col gap-2 mb-2">
             <p className="text-center text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link
@@ -181,12 +182,7 @@ export default function Register() {
                 Login
               </Link>
                </p>
-                 <Button variant="outline" className="w-full">
-                  Login with Google
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Login with GitHub
-                </Button>
+              <OAuthButton/>
             
             </CardFooter>
           </form>

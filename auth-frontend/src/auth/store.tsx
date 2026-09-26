@@ -19,6 +19,11 @@ import {persist} from 'zustand/middleware';
      login: (loginData : LoginData)=>void;
      logout:(options?:{silent?:boolean}) => void;
      checkLogin:()=> boolean | undefined;
+     changeLoginData:(
+      accessToken : string,
+      user : User,
+      authStatus: boolean,
+     ) => void;
  }
 
  // main logic for global state
@@ -62,6 +67,14 @@ import {persist} from 'zustand/middleware';
      checkLogin:()=>{
         if(get().accessToken && get().authStatus) return true;
         else return false;
+     },
+
+     changeLoginData:(accessToken, user, authStatus)=>{
+        set({
+            accessToken,
+            user,
+            authStatus
+        })
      }
 }),{
     name: Token_Key,

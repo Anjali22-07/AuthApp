@@ -18,6 +18,7 @@ import { Alert, AlertTitle } from '../components/ui/alert';
 import { Check, CheckCircle2Icon } from 'lucide-react';
 import { Spinner } from '../components/ui/spinner';
 import useAuth from '../auth/store';
+import OAuthButton from '../components/OAuthButton';
 
 
 
@@ -146,22 +147,17 @@ return(
                  />
             </div>
           </div>
-          <CardFooter className="flex-col gap-2 mt-2">
+        <CardFooter className="flex-col gap-2 mt-2">
         <Button disabled={loading} type="submit" className="w-full">
           {loading ? (<><Spinner/>Please Wait...</>)
           :("Login") }
         </Button>
-        <Button variant="outline" className="w-full">
-          Login with Google
-        </Button>
-         <Button variant="outline" className="w-full">
-          Login with GitHub
-        </Button>
-         <CardAction>
+        </CardFooter>
+         <OAuthButton/>
+        <div className="mt-3 mb-2">          
          <p className="ml-16"> Do not have an Account?
-          <NavLink to="/register"><Button size={"sm"} className= "cursor-pointer ml-20"  variant={"outline"}>SignUp</Button></NavLink>
-        </p></CardAction>
-      </CardFooter>
+          <NavLink to="/register"><Button size={"sm"} className= "cursor-pointer ml-10"  variant={"outline"}>SignUp</Button></NavLink>
+        </p></div>    
         </form>
       </CardContent>
       </Card>
