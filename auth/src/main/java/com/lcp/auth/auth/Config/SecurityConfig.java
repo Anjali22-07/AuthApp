@@ -3,6 +3,8 @@ package com.lcp.auth.auth.Config;
 import com.lcp.auth.auth.AuthApplication;
 import com.lcp.auth.auth.Security.JwtAuthenticationFilter;
 import com.lcp.auth.auth.Security.OAuthAuthenticationSuccessHandler;
+import com.lcp.auth.auth.dtos.AppConstants;
+
 import io.jsonwebtoken.lang.Arrays;
 import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
@@ -11,9 +13,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +30,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity 
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -49,10 +54,12 @@ public class SecurityConfig {
     http.csrf(AbstractHttpConfigurer::disable);
     http.cors(Customizer.withDefaults())
         .authorizeHttpRequests(authorizeHttpRequest->{
-            authorizeHttpRequest.requestMatchers("/api/V1/auth/register").permitAll()
-            .requestMatchers("/api/V1/auth/login").permitAll()
-             .requestMatchers("/api/V1/auth/refresh").permitAll()
-            .requestMatchers("/api/V1/auth/logout").permitAll()
+            authorizeHttpRequest.requestMatchers("/api/V1/auth/**").permitAll()
+            // .requestMatchers("/api/V1/auth/login").permitAll()
+            //  .requestMatchers("/api/V1/auth/refresh").permitAll()
+            // .requestMatchers("/api/V1/auth/logout").permitAll()
+            .requestMatchers(HttpMethod.GET).hasRole(AppConstants.GUEST_ROLE)
+            .requestMatchers("/api/V1/Users").hasRole(AppConstants.ADMIN_ROLE)
             .anyRequest().authenticated();
     }).oauth2Login(oauth2 -> oauth2.successHandler(oAuthAuthenticationSuccessHandler))
     .exceptionHandling(ex->ex.authenticationEntryPoint((request, response, e)->{

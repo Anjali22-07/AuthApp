@@ -3,6 +3,8 @@ package com.lcp.auth.auth.Security;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -27,6 +29,9 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
     private final JwtSecurity jwtSecurity;
     private final RefreshTokenRepository refreshTokenRepository; 
     private final CookieService cookieService;
+
+    @Value("${app.auth.Frontend.success-redirect}")
+    private String frontendSuccessUrl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -70,6 +75,8 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
 
       cookieService.addRefreshCookie(response, refreshToken, (int)jwtSecurity.getRefreshTokenTTLS());
       cookieService.addNoStroreHeaders(response);
+      //redirecting to this url-- which will be handled by the frontend
+      response.sendRedirect(frontendSuccessUrl);
       
     }
 
