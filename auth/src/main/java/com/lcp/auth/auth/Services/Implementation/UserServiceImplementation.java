@@ -1,5 +1,6 @@
 package com.lcp.auth.auth.Services.Implementation;
 
+import com.lcp.auth.auth.Repository.RoleRepository;
 import java.time.Instant;
 import java.util.UUID;
 import org.modelmapper.ModelMapper;
@@ -7,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.lcp.auth.auth.Exceptions.ResourceNotFoundException;
 import com.lcp.auth.auth.Repository.UserRepositories;
 import com.lcp.auth.auth.Services.UserService;
+import com.lcp.auth.auth.dtos.AppConstants;
 import com.lcp.auth.auth.dtos.UserDto;
 import com.lcp.auth.auth.entities.Provider;
+import com.lcp.auth.auth.entities.Role;
 import com.lcp.auth.auth.entities.User;
 import com.lcp.auth.auth.helper.UserHelper;
 import jakarta.transaction.Transactional;
@@ -18,12 +21,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImplementation implements UserService{
 
+    private final RoleRepository roleRepository;
     private final UserRepositories userRepo;
     private final ModelMapper modelMapper;
     private final UserHelper userHelper;
-    
-
-   
+    private final RoleRepository rolRepository;   
 
     @Override
     @Transactional
@@ -42,6 +44,9 @@ public class UserServiceImplementation implements UserService{
             user.setPassword(userdto.getPassword());      // already encoded by AuthServiceImplementation
             user.setImg(userdto.getImg());
            //assign role here for authorization     
+         Role role= roleRepository.findByRole("ROLE_"+AppConstants.GUEST_ROLE).orElse(null);
+           user.getRole().add(role);
+           
         User savedUser= userRepo.save(user);
             return modelMapper.map(savedUser, UserDto.class);
     }

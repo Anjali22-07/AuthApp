@@ -3,6 +3,7 @@ package com.lcp.auth.auth.Controller;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,7 @@ public class MainController {
     }
 
     @GetMapping("/email/{email}")
+    @PreAuthorize("hasRole(AppConstant.ADMIN_ROLE)")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email){
 
       return ResponseEntity.ok(userService.findUserByEmail(email));

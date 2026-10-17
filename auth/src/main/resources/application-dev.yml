@@ -50,11 +50,16 @@ security:
        cookie-Domain : ${COOKIE_DOMAIN_NAME}
 
 app:
- cors:
-     Frontend:
-       url: ${Frontend-URL}
+  cors:
+    Frontend:
+      url: ${Frontend-URL}
 
- logging:
+  auth:
+    Frontend:
+      success-redirect: "http://localhost:5173/auth/success"
+      failure-redirect: "http://localhost:5173/auth/failure"
+
+  logging:  
    level:
      org:
        springframework:
